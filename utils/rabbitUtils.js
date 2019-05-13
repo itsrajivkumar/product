@@ -24,7 +24,7 @@ var consumer = () => {
             ch.consume(queue, function (msg) {
                 if (msg != null) {                   
                     model.tbl_product.create({
-                        productsDetails: msg.content.toString()
+                        productsDetails: JSON.parse(msg.content.toString())
                     }).then(
                         result => {
                             console.log("save data into  db")

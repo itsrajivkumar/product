@@ -10,7 +10,7 @@ module.exports = {
             allowNull: false,
         },
         productsDetails: {
-            type: DataTypes.STRING
+            type: DataTypes.JSON
         }     
        
    }

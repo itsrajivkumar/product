@@ -33,6 +33,9 @@ server.listen(port, () => {
  
   db.sequelize.sync();
   consumer.consumer();
+  consumer.fileRepositoryConsumer();
+  consumer.transportLogConsumer();
+  consumer.boomiLogConsumer();
 
 }
 );

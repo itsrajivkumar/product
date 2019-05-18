@@ -2,12 +2,12 @@ var sequelize = require('sequelize');
 var DataTypes = require('sequelize/lib/data-types');
 /*
    **
-   **  FileRegistory  model  to  store the obj  into the db.
+   **  TransportLogs  model  to  store the obj  into the db.
    **
    */
 module.exports = {
-    fileRegistryObj: {
-        fileRegistryId: {
+    transportlogObj: {
+        transportlogId: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -28,6 +28,7 @@ module.exports = {
         sourceDataName: {
             type: DataTypes.STRING(50)
         },
+
         sourceDataType: {
             type: DataTypes.STRING(10)
         },
@@ -72,16 +73,15 @@ module.exports = {
         },
         processOwner: {
             type: DataTypes.STRING(20)
-        },
-        routeId: {
-            type: DataTypes.STRING(50)
-        },
+        },      
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
-            type: DataTypes.DATE          
-        },     
+            type: DataTypes.DATE(6),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(6)'),
+        }      
+
     }
 
 }

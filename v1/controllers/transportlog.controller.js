@@ -4,34 +4,33 @@ var sequelize = require('../models/index');
 
 var rabbitMq = require("../../utils/rabbitUtils");
 /*
-   **   To  perform  the operation regarding  product
+   **   To  perform  the operation regarding  transport log
    **
 */
 
 module.exports = {
 
     insert: (req, res) => {
-        console.log("Going to published  the product");
+        console.log("Going to published  the transport log");
         //publish the data in rabbit mq   
         try {
             var data = JSON.stringify(req.body);
-            rabbitMq.publishser(data,process.env.QUEUE_NAME);
-            response.result(data, res);
+            rabbitMq.publishser(data, process.env.TRANSPORT_LOG_RABBIT_QUEUE);
+            response.result(req.body, res);
         } catch (err) {
             response.dataErrors(err, res);
         }
 
     },
 
-    findAll: (req, res) => {
-        console.log("get all  the data from product tbl");
-        return model.tbl_product.findAll({
-        }).then(result => {
+    findAll: async (req, res) => {
+        console.log("get all  the data from transport log tbl");     
+        try {
+            var result = await model.tbl_transportLog.findAll({})
             response.result(result, res);
+        } catch (err) {
+            response.dataErrors(err, res);
         }
-            ), error => {
-                response.dataErrors(error, res);
-            }
     },
 }
 

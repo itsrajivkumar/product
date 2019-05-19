@@ -10,20 +10,20 @@ var rabbitMq = require("../../utils/rabbitUtils");
 
 module.exports = {
 
-    insert: async(req, res) => {
+    insert: async (req, res) => {
         console.log("Going to insert the users tbl ");
         try {
             var result = await model.tbl_users.create({
-                firstname:req.body.firstname,
+                firstname: req.body.firstname,
                 lastname: req.body.lastname,
                 email: req.body.email,
-                password:  req.body.password 
-            });                       
+                password: req.body.password
+            });
             if (result.dataValues.userId > 0) {
-             console.log("save route Master with id",result.dataValues.userId);   
-             response.result(result.dataValues, res);           
-            }        
-         
+                console.log("save route Master with id", result.dataValues.userId);
+                response.result(result.dataValues, res);
+            }
+
         } catch (err) {
             response.dataErrors(err, res);
         }
@@ -31,12 +31,12 @@ module.exports = {
     },
 
     findAll: async (req, res) => {
-        console.log("get all  the data from users tbl");     
+        console.log("get all  the data from users tbl");
         try {
             var result = await model.tbl_users.findAll({
                 order: [
                     ['userId', 'ASC'],
-                   ]
+                ]
             });
             response.result(result, res);
         } catch (err) {
@@ -44,27 +44,29 @@ module.exports = {
         }
     },
 
-    getUserId : async (req, res) => {
-        console.log("get ID  the data from users tbl");     
+    getUserId: async (req, res) => {
+        console.log("get ID  the data from users tbl");
         try {
             var result = await model.tbl_users.findAll({
-                where :{   userId : req.params.id}
+                where: { userId: req.params.id }
             })
             response.result(result, res);
         } catch (err) {
             response.dataErrors(err, res);
         }
     },
-    update : async (req, res) => {
-        console.log("update  the data from users tbl");           
+    update: async (req, res) => {
+        console.log("update  the data from users tbl");
         try {
             var result = await model.tbl_users.update({
-               firstname:req.body.firstname,
+                firstname: req.body.firstname,
                 lastname: req.body.lastname,
                 email: req.body.email,
-                password:  req.body.password },
-                {where:
-                    {userId: req.params.userId}
+                password: req.body.password
+            },
+                {
+                    where:
+                        { userId: req.params.userId }
                 }
             )
             response.result(result, res);
@@ -72,6 +74,32 @@ module.exports = {
             response.dataErrors(err, res);
         }
     },
+
+    emailVerification: async (req, res) => {
+        console.log("get  the user by email");
+        try {
+            var result = await model.tbl_users.findAll({
+                where: { email: req.params.email }
+            })
+            response.result(result, res);
+        } catch (err) {
+            response.dataErrors(err, res);
+        }
+    },
+    login: async (req, res) => {
+        console.log("get  the user by email and password");
+        try {
+            var result = await model.tbl_users.findAll({
+                where: {
+                    email: req.body.email,
+                    password: req.body.password
+                }
+            })
+            response.result(result, res);
+        } catch (err) {
+            response.dataErrors(err, res);
+        }
+    }
 }
 
 

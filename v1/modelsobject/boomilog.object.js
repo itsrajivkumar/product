@@ -14,20 +14,22 @@ module.exports = {
             unique: true,
             allowNull: false,
         },
+        transportId: {
+            type: DataTypes.STRING(20),
+            allowNull: false
+        },
         processId: {
             type: DataTypes.STRING(20)
-        },      
+        },
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
-            type: DataTypes.DATE         
+            type: DataTypes.DATE
         },
         remarks: {
             type: DataTypes.STRING(50)
         }
-
-
     }
 
 }

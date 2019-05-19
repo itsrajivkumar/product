@@ -28,6 +28,7 @@ module.exports = {
             var result = await model.tbl_boomiLog.findAll({})
             response.result(result, res);
         } catch (err) {
+            console.log(err);
             response.dataErrors(err, res);
         }
     },

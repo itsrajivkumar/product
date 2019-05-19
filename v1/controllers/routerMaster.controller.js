@@ -2,7 +2,7 @@ var response = require('../../responses/response');
 var model = require('../models');
 var sequelize = require('../models/index');
 /*
-   **   To  perform  the operation regarding  fileRepository
+   **   To  perform  the operation regarding  router Master
    **
 */
 

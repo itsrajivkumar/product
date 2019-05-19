@@ -4,7 +4,7 @@ var sequelize = require('../models/index');
 
 var rabbitMq = require("../../utils/rabbitUtils");
 /*
-   **   To  perform  the operation regarding  location tbl
+   **   To  perform  the operation regarding  routerLocationMapping tbl
    **
 */
 

@@ -9,7 +9,7 @@ var usersRouter=require('../routes/usersRouter');
 var routeMasterRouter=require('../routes/routeMasterRouter');
 var locationRouter=require('../routes/locationRouter');
 var routerlocationmappingRouter=require('../routes/routerlocationmappingRouter');
-
+var  transportIdRouter =require('../routes/transportIdRouter');
 appRouter.use('/', indexRouter);
 appRouter.use("/product",productRouter);
 appRouter.use("/fileRepository",fileRepositoryRouter);
@@ -19,5 +19,6 @@ appRouter.use("/users",usersRouter);
 appRouter.use("/routeMaster",routeMasterRouter);
 appRouter.use("/locations",locationRouter);
 appRouter.use("/routerlocationMapping",routerlocationmappingRouter);
+appRouter.use("/transportId",transportIdRouter);
 
 module.exports = appRouter;

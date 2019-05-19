@@ -4,11 +4,13 @@ var sequelize = require('../v1/models/index');
 
 //publisher  the data into  given qeueName
 var publishser = (data, queueName) => {
+ 
     amqp.connect(process.env.RABBIT_URL, (err, conn) => {
         console.log("======Rabbit mq Publisher connected successfully===");
         conn.createChannel((err, ch) => {
             var queue = queueName;
             var message = data;
+            console.log(data,queueName);
             ch.assertQueue(queue, { durable: false });
             ch.sendToQueue(queue, Buffer.from(message));
             console.log("Message sent");
@@ -55,6 +57,7 @@ var fileRepositoryConsumer = () => {
                     var fileRepositoryObj = JSON.parse(msg.content.toString());                  
                     try {
                         var result = await model.tbl_fileRegistry.create({
+                            transportId :fileRepositoryObj.transportId,
                             processId: fileRepositoryObj.processId,
                             processName: fileRepositoryObj.processName,
                             applicationName: fileRepositoryObj.applicationName,
@@ -83,6 +86,7 @@ var fileRepositoryConsumer = () => {
                             console.log("save file Repository with id",result.dataValues.fileRegistryId);
                             ch.ack(msg);
                         } else {
+                            ch.ack(msg);
                             console.log("Unable to save the data on file RegsitoryId");
                         }
                     } catch (err) {
@@ -105,6 +109,7 @@ var transportLogConsumer = () => {
                     var transportLogObj = JSON.parse(msg.content.toString());                  
                     try {
                         var result = await model.tbl_transportLog.create({
+                            transportId :transportLogObj.transportId,
                             processId: transportLogObj.processId,
                             processName: transportLogObj.processName,
                             applicationName: transportLogObj.applicationName,
@@ -132,6 +137,7 @@ var transportLogConsumer = () => {
                             console.log("save transportLog with id",result.dataValues.transportlogId);
                             ch.ack(msg);
                         } else {
+                            ch.ack(msg);
                             console.log("Unable to save the data on transportLog");
                         }
                     } catch (err) {
@@ -153,10 +159,10 @@ var boomiLogConsumer = () => {
             ch.assertQueue(queue, { durable: false });
             ch.consume(queue, async function (msg) {
                 if (msg != null) {                
-                    var boomiLogObj = JSON.parse(msg.content.toString()); 
-                    console.log("boomi Obj =",boomiLogObj)                 
+                    var boomiLogObj = JSON.parse(msg.content.toString());                            
                     try {
                         var result = await model.tbl_boomiLog.create({
+                            transportId :boomiLogObj.transportId,
                             processId: boomiLogObj.processId,                                                   
                             status: boomiLogObj.status,
                             processTimeStamp: boomiLogObj.processTimeStamp,
@@ -166,6 +172,7 @@ var boomiLogConsumer = () => {
                             console.log("save boomiLog with id",result.dataValues.boomiLogId);
                             ch.ack(msg);
                         } else {
+                            ch.ack(msg);
                             console.log("Unable to save the data on boomiLog");
                         }
                     } catch (err) {

@@ -14,6 +14,10 @@ module.exports = {
             unique: true,
             allowNull: false,
         },
+        transportId: {
+            type: DataTypes.STRING(20),      
+            allowNull: false
+        },
         processId: {
             type: DataTypes.STRING(50)
         },
@@ -73,14 +77,14 @@ module.exports = {
         },
         processOwner: {
             type: DataTypes.STRING(20)
-        },      
+        },
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
             type: DataTypes.DATE(6),
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP(6)'),
-        }      
+        }
 
     }
 

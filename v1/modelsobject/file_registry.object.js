@@ -14,6 +14,11 @@ module.exports = {
             unique: true,
             allowNull: false,
         },
+        transportId :{
+            type: DataTypes.STRING(20),      
+            unique: true,
+            allowNull: false 
+        },
         processId: {
             type: DataTypes.STRING(50)
         },

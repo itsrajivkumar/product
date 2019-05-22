@@ -78,6 +78,7 @@ var fileRepositoryConsumer = () => {
                             transformOutData: fileRepositoryObj.transformOutData,
                             processOwner: fileRepositoryObj.processOwner,
                             routeId: fileRepositoryObj.routeId,
+                            locationId:fileRepositoryObj.locationId,                           
                             status: fileRepositoryObj.status,
                             processTimeStamp: fileRepositoryObj.processTimeStamp
 
@@ -128,7 +129,8 @@ var transportLogConsumer = () => {
                             outputDataEncyptionPublicKeyFileName: transportLogObj.outputDataEncyptionPublicKeyFileName,
                             outputDataHashProgram: transportLogObj.outputDataHashProgram,
                             transformOutData: transportLogObj.transformOutData,
-                            processOwner: transportLogObj.processOwner,                         
+                            processOwner: transportLogObj.processOwner, 
+                            locationId:transportLogObj.locationId,                           
                             status: transportLogObj.status,
                             processTimeStamp: transportLogObj.processTimeStamp
 
@@ -165,6 +167,7 @@ var boomiLogConsumer = () => {
                             transportId :boomiLogObj.transportId,
                             processId: boomiLogObj.processId,                                                   
                             status: boomiLogObj.status,
+                            locationId:boomiLogObj.locationId,    
                             processTimeStamp: boomiLogObj.processTimeStamp,
                             remarks: boomiLogObj.remarks
                         });                       
@@ -176,7 +179,7 @@ var boomiLogConsumer = () => {
                             console.log("Unable to save the data on boomiLog");
                         }
                     } catch (err) {
-                        console.log("error while adding the boomiLog");
+                        console.log("error while adding the boomiLog",err);
                     }
                 }
             })

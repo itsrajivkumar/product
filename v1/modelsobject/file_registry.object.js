@@ -24,8 +24,7 @@ module.exports = {
         },
         processName: {
             type: DataTypes.STRING(20)
-        },
-
+        },       
         applicationName: {
             type: DataTypes.STRING(20)
         },
@@ -81,12 +80,17 @@ module.exports = {
         routeId: {
             type: DataTypes.STRING(50)
         },
+        locationId: {
+            type: DataTypes.INTEGER          
+        },
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
-            type: DataTypes.DATE          
-        },     
+            type: DataTypes.BIGINT          
+        }
+        
+
     }
 
 }

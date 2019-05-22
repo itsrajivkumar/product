@@ -1,0 +1,11 @@
+
+2019522 21:5:24:262|Critical|app.js|Unexpected string in JSON at position 168|SyntaxError: Unexpected string in JSON at position 168
+    at JSON.parse (<anonymous>)
+    at parse (E:\personal-work\git\product\node_modules\body-parser\lib\types\json.js:89:19)
+    at E:\personal-work\git\product\node_modules\body-parser\lib\read.js:121:18
+    at invokeCallback (E:\personal-work\git\product\node_modules\raw-body\index.js:224:16)
+    at done (E:\personal-work\git\product\node_modules\raw-body\index.js:213:7)
+    at IncomingMessage.onEnd (E:\personal-work\git\product\node_modules\raw-body\index.js:273:7)
+    at IncomingMessage.emit (events.js:202:15)
+    at endReadableNT (_stream_readable.js:1132:12)
+    at processTicksAndRejections (internal/process/next_tick.js:76:17)

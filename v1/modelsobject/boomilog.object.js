@@ -21,11 +21,14 @@ module.exports = {
         processId: {
             type: DataTypes.STRING(20)
         },
+        locationId: {
+            type: DataTypes.INTEGER          
+        },
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
-            type: DataTypes.DATE
+            type: DataTypes.BIGINT            
         },
         remarks: {
             type: DataTypes.STRING(50)

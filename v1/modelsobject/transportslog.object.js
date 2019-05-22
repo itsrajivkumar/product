@@ -78,12 +78,14 @@ module.exports = {
         processOwner: {
             type: DataTypes.STRING(20)
         },
+        locationId: {
+            type: DataTypes.INTEGER          
+        },
         status: {
             type: DataTypes.INTEGER
         },
         processTimeStamp: {
-            type: DataTypes.DATE(6),
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(6)'),
+            type: DataTypes.BIGINT        
         }
 
     }

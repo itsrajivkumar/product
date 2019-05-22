@@ -36,7 +36,7 @@ module.exports = {
         try {
             var result = await model.tbl_users.findAll({
                 order: [
-                    ['userId', 'ASC'],
+                    ['userId', 'DEC'],
                 ]
             });
             response.result(result, res);

@@ -101,7 +101,19 @@ module.exports = {
         } catch (err) {
             response.dataErrors(err, res);
         }
+    },
+
+    count: async (req, res) => {
+        console.log("get the user count");
+        try {
+            var result = await model.tbl_users.count({});
+            response.result(result, res);
+        } catch (err) {
+            response.dataErrors(err, res);
+        }
     }
+
+    
 }
 
 

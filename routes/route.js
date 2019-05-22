@@ -10,6 +10,7 @@ var routeMasterRouter=require('../routes/routeMasterRouter');
 var locationRouter=require('../routes/locationRouter');
 var routerlocationmappingRouter=require('../routes/routerlocationmappingRouter');
 var  transportIdRouter =require('../routes/transportIdRouter');
+var  dashboardRouter =require('../routes/dashboardRouter');
 appRouter.use('/', indexRouter);
 appRouter.use("/product",productRouter);
 appRouter.use("/fileRepository",fileRepositoryRouter);
@@ -20,5 +21,6 @@ appRouter.use("/routeMaster",routeMasterRouter);
 appRouter.use("/locations",locationRouter);
 appRouter.use("/routerlocationMapping",routerlocationmappingRouter);
 appRouter.use("/transportId",transportIdRouter);
+appRouter.use("/dashboard",dashboardRouter);
 
 module.exports = appRouter;

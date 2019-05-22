@@ -32,6 +32,17 @@ module.exports = {
             response.dataErrors(err, res);
         }
     },
+    
+    getByCreatedAt : async (req,res) => {
+        console.log("get count from fileRegistry tbl");     
+        try {
+            var result = await model.sequelize.query("select * from 'tbl_fileRegistry'", { type: model.sequelize.QueryTypes.SELECT})
+            response.result(result, res);
+        } catch (err) {
+            console.log(err);
+            response.dataErrors(err, res);
+        }
+    }
 }
 
 

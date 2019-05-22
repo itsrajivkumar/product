@@ -9,9 +9,10 @@ var sequelize = require('../models/index');
 module.exports = {
     insert: async (req, res) => {
         console.log("Going to insert the router Master ");
-        try {
+        console.log(req.body.routerName)
+          try {
             var result = await model.tbl_routeMaster.create({
-                routeName: req.body.routerName
+                routeName: req.body.routeName
             });
             if (result.dataValues.routeId > 0) {
                 console.log("save route Master with id", result.dataValues.routeId);

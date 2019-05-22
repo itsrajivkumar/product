@@ -25,9 +25,10 @@ module.exports = {
         },
         password: {
             type: DataTypes.STRING(50)
+        },
+        status:{
+            type:DataTypes.STRING(50)
         }
-
-
     }
 
 }

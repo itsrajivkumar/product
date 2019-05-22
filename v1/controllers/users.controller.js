@@ -17,7 +17,8 @@ module.exports = {
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                status:req.body.status            
             });
             if (result.dataValues.userId > 0) {
                 console.log("save route Master with id", result.dataValues.userId);
@@ -62,7 +63,8 @@ module.exports = {
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                status:req.body.status              
             },
                 {
                     where:

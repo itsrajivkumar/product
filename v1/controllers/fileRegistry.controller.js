@@ -1,7 +1,6 @@
 var response = require('../../responses/response');
 var model = require('../models');
 var sequelize = require('../models/index');
-
 var rabbitMq = require("../../utils/rabbitUtils");
 /*
    **   To  perform  the operation regarding  fileRepository
@@ -24,7 +23,7 @@ module.exports = {
     },
 
     findAll: async (req, res) => {
-        console.log("get all  the data from fileRegistry tbl");     
+        console.log("get all  the data from fileRegistry tbl");
         try {
             var result = await model.tbl_fileRegistry.findAll({})
             response.result(result, res);
@@ -32,12 +31,40 @@ module.exports = {
             response.dataErrors(err, res);
         }
     },
-    
-    getByCreatedAt : async (req,res) => {
-        console.log("get count from fileRegistry tbl");     
+
+    getByCreatedAt: async (req, res) => {
+        console.log("get count from fileRegistry tbl");
         try {
-            var result = await model.sequelize.query("select * from 'tbl_fileRegistry'", { type: model.sequelize.QueryTypes.SELECT})
-            response.result(result, res);
+            var count = 0;
+            var successcount = 0;
+            var failurecount = 0;
+            var inProcesscount = 0;
+            var date = new Date().toISOString().split("T");
+            console.log(date);
+            var result = await model.tbl_fileRegistry.findAll({});
+            for (var index = 0; index < result.length; index++) {
+                var fileRegistry = result[index];
+                var date1 = fileRegistry.createdAt;             
+                var dateRes = date1.split("T");
+                console.log(dateRes[0], "==", date[0]);
+                if (dateRes[0] == date[0]) {
+                    count = count + 1;
+                    if (fileRegistry.status == 2) {
+                        successcount = successcount + 1;
+                    } else if (fileRegistry.status == 1) {
+                        inProcesscount = inProcesscount + 1;
+                    } else if (fileRegistry.status == 0) {
+                        failurecount = failurecount + 1;
+                    }
+                }
+            }
+            var msg = {};
+            msg["count"] = count;
+            msg["successcount"] = successcount;
+            msg["failurecount"] = failurecount;
+            msg["inProcesscount"] = inProcesscount;
+
+            response.result(msg, res);
         } catch (err) {
             console.log(err);
             response.dataErrors(err, res);

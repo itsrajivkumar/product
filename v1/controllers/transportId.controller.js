@@ -1,6 +1,7 @@
 var response = require('../../responses/response');
 var model = require('../models');
 var sequelize = require('../models/index');
+var _ = require('lodash');
 /*
    **   To  perform  the operation regarding  tansportId 
    **
@@ -80,7 +81,38 @@ module.exports = {
                    var locations = await model.tbl_location.findByPk(routeDataMapping[count].locationId);
                     route.push(locations.dataValues); 
                 }
+
+                /*************Set the color on the base of location id By Rajiv */
+                var tempObj = await model.sequelize.query(`select "locationId","transportId",status,"processTimeStamp" from "tbl_fileRegistries" as f where "transportId"='${transportId}}' 
+    UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_transportLogs" as t where "transportId"='${transportId}'  
+    UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_boomiLogs" as t where "transportId"='${transportId}'
+    `,  { type: model.sequelize.QueryTypes.SELECT });
+                let status=0;
+                let timepstamp=0;
+                for (var count = 0; count < route.length; count++) {
+                    var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
+                    if(locationStatus){
+                        console.log("Location Found");
+                        // 0 -disabled , 1-success , 2 - Failed for location button
+                        route[count].status = locationStatus.status;
+
+                        status = locationStatus.status;
+                        timepstamp = locationStatus.processTimeStamp;
+                    }
+                    else{
+                        console.log("Location NOt Found");
+                        if(status!=2)
+                            status=0;
+
+                        route[count].status = 0;                
+                    }
+                 }
+                 /********************************************** */
+                
                 result["route"] = route;
+                result["status"] = status;
+                result["lastTimeStamp"] = timepstamp;
+                //var status = await statusByTransportId();
                 fileRegistryArray.push(result);
             }          
             response.result(fileRegistryArray, res);

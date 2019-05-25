@@ -2,6 +2,7 @@ var response = require('../../responses/response');
 var model = require('../models');
 var sequelize = require('../models/index');
 var rabbitMq = require("../../utils/rabbitUtils");
+var dateFormat = require('dateformat');
 /*
    **   To  perform  the operation regarding  fileRepository
    **
@@ -44,10 +45,8 @@ module.exports = {
             var result = await model.tbl_fileRegistry.findAll({});
             for (var index = 0; index < result.length; index++) {
                 var fileRegistry = result[index];
-                var date1 = fileRegistry.createdAt;             
-                var dateRes = date1.split("T");
-                console.log(dateRes[0], "==", date[0]);
-                if (dateRes[0] == date[0]) {
+                var date1 = dateFormat(fileRegistry.createdAt, "yyyy-mm-dd");
+                if (date1 == date[0]) {
                     count = count + 1;
                     if (fileRegistry.status == 2) {
                         successcount = successcount + 1;

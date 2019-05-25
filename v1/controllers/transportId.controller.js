@@ -83,7 +83,7 @@ module.exports = {
                 }
 
                 /*************Set the color on the base of location id By Rajiv */
-                var tempObj = await model.sequelize.query(`select "locationId","transportId",status,"processTimeStamp" from "tbl_fileRegistries" as f where "transportId"='${transportId}}' 
+                var tempObj = await model.sequelize.query(`select "locationId","transportId",status,"processTimeStamp" from "tbl_fileRegistries" as f where "transportId"='${transportId}' 
     UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_transportLogs" as t where "transportId"='${transportId}'  
     UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_boomiLogs" as t where "transportId"='${transportId}'
     `,  { type: model.sequelize.QueryTypes.SELECT });
@@ -92,15 +92,16 @@ module.exports = {
                 for (var count = 0; count < route.length; count++) {
                     var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
                     if(locationStatus){
-                        console.log("Location Found");
+                    var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
+                        console.log("Location Found",locationStatus);
                         // 0 -disabled , 1-success , 2 - Failed for location button
                         route[count].status = locationStatus.status;
-
-                        status = locationStatus.status;
+                        if(status!=2)
+                            status = locationStatus.status;
                         timepstamp = locationStatus.processTimeStamp;
                     }
                     else{
-                        console.log("Location NOt Found");
+                        console.log("Location NOt Found",locationStatus);
                         if(status!=2)
                             status=0;
 

@@ -22,7 +22,7 @@ module.exports = {
         }
 
     },
-
+   
     findAll: async (req, res) => {
         console.log("get all  the data from fileRegistry tbl");
         try {

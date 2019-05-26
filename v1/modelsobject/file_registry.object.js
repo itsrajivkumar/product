@@ -88,8 +88,10 @@ module.exports = {
         },
         processTimeStamp: {
             type: DataTypes.BIGINT          
+        } ,
+        remarks: {
+            type: DataTypes.STRING(255)
         }
-        
 
     }
 

@@ -83,19 +83,21 @@ module.exports = {
                 }
 
                 /*************Set the color on the base of location id By Rajiv */
-                var tempObj = await model.sequelize.query(`select "locationId","transportId",status,"processTimeStamp" from "tbl_fileRegistries" as f where "transportId"='${transportId}' 
-    UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_transportLogs" as t where "transportId"='${transportId}'  
-    UNION ALL select "locationId","transportId",status,"processTimeStamp" from "tbl_boomiLogs" as t where "transportId"='${transportId}'
+                var tempObj = await model.sequelize.query(`select 1 as type, "fileRegistryId" as id, "locationId","transportId",status,"processTimeStamp" from "tbl_fileRegistries" as f where "transportId"='${transportId}' 
+    UNION ALL select 2,"transportlogId" as id,"locationId","transportId",status,"processTimeStamp" from "tbl_transportLogs" as t where "transportId"='${transportId}'  
+    UNION ALL select  3,"boomiLogId" as id, "locationId","transportId",status,"processTimeStamp" from "tbl_boomiLogs" as t where "transportId"='${transportId}'
     `,  { type: model.sequelize.QueryTypes.SELECT });
                 let status=0;
                 let timepstamp=0;
                 for (var count = 0; count < route.length; count++) {
                     var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
                     if(locationStatus){
-                    var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
+                   // var locationStatus = _.find(tempObj, {locationId: route[count].locationId});
                         console.log("Location Found",locationStatus);
                         // 0 -disabled , 1-success , 2 - Failed for location button
                         route[count].status = locationStatus.status;
+                        route[count].type = locationStatus.type;
+                        route[count].id = locationStatus.id;
                         if(status!=2)
                             status = locationStatus.status;
                         timepstamp = locationStatus.processTimeStamp;

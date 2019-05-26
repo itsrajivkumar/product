@@ -9,6 +9,21 @@ var rabbitMq = require("../../utils/rabbitUtils");
 */
 
 module.exports = {
+    getById: async (req, res) => {        
+        var result = {};
+        try {
+            var fileRegistry = await model.tbl_boomiLog.findAll({
+                where: {
+                    boomiLogId: req.params.id
+                }
+            });
+           
+            response.result(fileRegistry, res);
+        } catch (err) {
+            console.log(err);
+            response.dataErrors(err, res);
+        }
+    },
     insert: (req, res) => {
         console.log("Going to published  the boomiLog ");
         //publish the data in rabbit mq          

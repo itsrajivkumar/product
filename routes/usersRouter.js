@@ -8,4 +8,5 @@ router.get("/",users.findAll);
 router.get("/:id",users.getUserId);
 router.get("/email/:email",users.emailVerification);
 router.post("/login",users.login);
+router.put("/updatestatus/:userId",users.updateStatus);
 module.exports = router;

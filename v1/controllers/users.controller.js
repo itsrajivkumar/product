@@ -78,6 +78,22 @@ module.exports = {
             response.dataErrors(err, res);
         }
     },
+    updateStatus: async (req, res) => {
+        console.log("update  the data from users tbl");
+        try {
+            var result = await model.tbl_users.update({                
+                status:req.body.status              
+            },
+                {
+                    where:
+                        { userId: req.params.userId }
+                }
+            )
+            response.result(result, res);
+        } catch (err) {
+            response.dataErrors(err, res);
+        }
+    },
 
     emailVerification: async (req, res) => {
         console.log("get  the user by email");
@@ -96,7 +112,8 @@ module.exports = {
             var result = await model.tbl_users.findAll({
                 where: {
                     email: req.body.email,
-                    password: md5(req.body.password)
+                    password: md5(req.body.password),
+                    status:1
                 }
             })
             response.result(result, res);

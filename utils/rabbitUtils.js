@@ -80,7 +80,8 @@ var fileRepositoryConsumer = () => {
                             routeId: fileRepositoryObj.routeId,
                             locationId:fileRepositoryObj.locationId,                           
                             status: fileRepositoryObj.status,
-                            processTimeStamp: fileRepositoryObj.processTimeStamp
+                            processTimeStamp: fileRepositoryObj.processTimeStamp,
+                            remarks: fileRepositoryObj.remarks
 
                         });                       
                         if (result.dataValues.fileRegistryId > 0) {
@@ -91,7 +92,8 @@ var fileRepositoryConsumer = () => {
                             console.log("Unable to save the data on file RegsitoryId");
                         }
                     } catch (err) {
-                        console.log("error while adding the fileRepository");
+                        ch.ack(msg);
+                        console.log("error while adding the fileRepository",err);
                     }
                 }
             })
@@ -132,7 +134,8 @@ var transportLogConsumer = () => {
                             processOwner: transportLogObj.processOwner, 
                             locationId:transportLogObj.locationId,                           
                             status: transportLogObj.status,
-                            processTimeStamp: transportLogObj.processTimeStamp
+                            processTimeStamp: transportLogObj.processTimeStamp,
+                            remarks: transportLogObj.remarks
 
                         });                       
                         if (result.dataValues.transportlogId > 0) {
@@ -165,11 +168,30 @@ var boomiLogConsumer = () => {
                     try {
                         var result = await model.tbl_boomiLog.create({
                             transportId :boomiLogObj.transportId,
-                            processId: boomiLogObj.processId,                                                   
+                            processId: boomiLogObj.processId,
+                            processName: boomiLogObj.processName,
+                            applicationName: boomiLogObj.applicationName,
+                            sourceDataName: boomiLogObj.sourceDataName,
+                            sourceDataType: boomiLogObj.sourceDataType,
+                            sourceDataEncryptionType: boomiLogObj.sourceDataEncryptionType,
+                            sourceDataEncryptionPassword: boomiLogObj.sourceDataEncryptionPassword,
+                            sourceDataEncryptionPrivateKeyFileName: boomiLogObj.sourceDataEncryptionPrivateKeyFileName,
+                            sourceDataEncryptionPublicKeyFileName: boomiLogObj.sourceDataEncryptionPublicKeyFileName,
+                            sourceDataHashProgram: boomiLogObj.sourceDataHashProgram,
+                            outputDataName: boomiLogObj.outputDataName,
+                            outputDataType: boomiLogObj.outputDataType,
+                            outputDataEncyptionType: boomiLogObj.outputDataEncyptionType,
+                            outputDataEncyptionPassword: boomiLogObj.outputDataEncyptionPassword,
+                            outputDataEncyptionPrivateKeyFileName: boomiLogObj.outputDataEncyptionPrivateKeyFileName,
+                            outputDataEncyptionPublicKeyFileName: boomiLogObj.outputDataEncyptionPublicKeyFileName,
+                            outputDataHashProgram: boomiLogObj.outputDataHashProgram,
+                            transformOutData: boomiLogObj.transformOutData,
+                            processOwner: boomiLogObj.processOwner, 
+                            locationId:boomiLogObj.locationId,                           
                             status: boomiLogObj.status,
-                            locationId:boomiLogObj.locationId,    
                             processTimeStamp: boomiLogObj.processTimeStamp,
                             remarks: boomiLogObj.remarks
+
                         });                       
                         if (result.dataValues.boomiLogId > 0) {
                             console.log("save boomiLog with id",result.dataValues.boomiLogId);

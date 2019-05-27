@@ -5,4 +5,5 @@ var fileRegistry=  require('../v1/controllers/fileRegistry.controller');
 var auth = require('../auth');
 router.get("/usercount",user.count);
 router.get("/fileRegcount",fileRegistry.getByCreatedAt);
+router.get("/barchart",fileRegistry.getCreatedAtByMonth);
 module.exports = router;

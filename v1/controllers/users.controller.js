@@ -1,6 +1,7 @@
 var response = require('../../responses/response');
 var model = require('../models');
 var sequelize = require('../models/index');
+var md5 = require('md5');
 
 var rabbitMq = require("../../utils/rabbitUtils");
 /*
@@ -11,13 +12,14 @@ var rabbitMq = require("../../utils/rabbitUtils");
 module.exports = {
 
     insert: async (req, res) => {
-        console.log("Going to insert the users tbl ");
+
+        console.log("Going to insert the users tbl ",req.body);
         try {
             var result = await model.tbl_users.create({
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
+                firstname: req.body.firstName,
+                lastname: req.body.lastName,
                 email: req.body.email,
-                password: req.body.password,
+                password:md5(req.body.password),
                 status:req.body.status            
             });
             if (result.dataValues.userId > 0) {
@@ -94,7 +96,7 @@ module.exports = {
             var result = await model.tbl_users.findAll({
                 where: {
                     email: req.body.email,
-                    password: req.body.password
+                    password: md5(req.body.password)
                 }
             })
             response.result(result, res);

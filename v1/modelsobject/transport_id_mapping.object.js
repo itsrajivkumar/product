@@ -2,32 +2,26 @@ var sequelize = require('sequelize');
 var DataTypes = require('sequelize/lib/data-types');
 /*
    **
-   **  user  model  to  store the obj  into the db.
+   **  transport_id_mapping  model  to  store the obj  into the db.
    **
    */
 module.exports = {
-    usersObj: {
-        userId: {
+    transportIdMappingObj: {
+        transport_mapping_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             unique: true,
             allowNull: false,
         },
-        firstname: {
-            type: DataTypes.STRING(50)
-        },      
-        lastname: {
+        process_name: {
             type: DataTypes.STRING(50)
         },
-        email: {
-            type: DataTypes.STRING(50)    
+        application_name: {
+            type: DataTypes.STRING(50)
         },
-        password: {
-            type: DataTypes.TEXT
-        },
-        status:{
-            type:DataTypes.INTEGER
+        source_data_name: {
+            type: DataTypes.STRING(50)
         }
     }
 

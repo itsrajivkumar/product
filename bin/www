@@ -32,10 +32,12 @@ server.listen(port, () => {
   console.log("Lisen the port");
  
   db.sequelize.sync();
-  consumer.consumer();
+ consumer.consumer();
   consumer.fileRepositoryConsumer();
   consumer.transportLogConsumer();
   consumer.boomiLogConsumer();
+  consumer.transport_LogConsumer();
+  
 
 }
 );

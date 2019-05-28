@@ -4,13 +4,13 @@ var sequelize = require('../v1/models/index');
 
 //publisher  the data into  given qeueName
 var publishser = (data, queueName) => {
- 
+
     amqp.connect(process.env.RABBIT_URL, (err, conn) => {
         console.log("======Rabbit mq Publisher connected successfully===");
         conn.createChannel((err, ch) => {
             var queue = queueName;
             var message = data;
-            console.log(data,queueName);
+            console.log(data, queueName);
             ch.assertQueue(queue, { durable: false });
             ch.sendToQueue(queue, Buffer.from(message));
             console.log("Message sent");
@@ -53,11 +53,11 @@ var fileRepositoryConsumer = () => {
             var queue = process.env.FILE_REGISTRY_RABBIT_QUEUE;
             ch.assertQueue(queue, { durable: false });
             ch.consume(queue, async function (msg) {
-                if (msg != null) {                
-                    var fileRepositoryObj = JSON.parse(msg.content.toString());                  
+                if (msg != null) {
+                    var fileRepositoryObj = JSON.parse(msg.content.toString());
                     try {
                         var result = await model.tbl_fileRegistry.create({
-                            transportId :fileRepositoryObj.transportId,
+                            transportId: fileRepositoryObj.transportId,
                             processId: fileRepositoryObj.processId,
                             processName: fileRepositoryObj.processName,
                             applicationName: fileRepositoryObj.applicationName,
@@ -78,14 +78,14 @@ var fileRepositoryConsumer = () => {
                             transformOutData: fileRepositoryObj.transformOutData,
                             processOwner: fileRepositoryObj.processOwner,
                             routeId: fileRepositoryObj.routeId,
-                            locationId:fileRepositoryObj.locationId,                           
+                            locationId: fileRepositoryObj.locationId,
                             status: fileRepositoryObj.status,
                             processTimeStamp: fileRepositoryObj.processTimeStamp,
                             remarks: fileRepositoryObj.remarks
 
-                        });                       
+                        });
                         if (result.dataValues.fileRegistryId > 0) {
-                            console.log("save file Repository with id",result.dataValues.fileRegistryId);
+                            console.log("save file Repository with id", result.dataValues.fileRegistryId);
                             ch.ack(msg);
                         } else {
                             ch.ack(msg);
@@ -93,7 +93,7 @@ var fileRepositoryConsumer = () => {
                         }
                     } catch (err) {
                         ch.ack(msg);
-                        console.log("error while adding the fileRepository",err);
+                        console.log("error while adding the fileRepository", err);
                     }
                 }
             })
@@ -108,11 +108,11 @@ var transportLogConsumer = () => {
             var queue = process.env.TRANSPORT_LOG_RABBIT_QUEUE;
             ch.assertQueue(queue, { durable: false });
             ch.consume(queue, async function (msg) {
-                if (msg != null) {                
-                    var transportLogObj = JSON.parse(msg.content.toString());                  
+                if (msg != null) {
+                    var transportLogObj = JSON.parse(msg.content.toString());
                     try {
                         var result = await model.tbl_transportLog.create({
-                            transportId :transportLogObj.transportId,
+                            transportId: transportLogObj.transportId,
                             processId: transportLogObj.processId,
                             processName: transportLogObj.processName,
                             applicationName: transportLogObj.applicationName,
@@ -131,15 +131,15 @@ var transportLogConsumer = () => {
                             outputDataEncyptionPublicKeyFileName: transportLogObj.outputDataEncyptionPublicKeyFileName,
                             outputDataHashProgram: transportLogObj.outputDataHashProgram,
                             transformOutData: transportLogObj.transformOutData,
-                            processOwner: transportLogObj.processOwner, 
-                            locationId:transportLogObj.locationId,                           
+                            processOwner: transportLogObj.processOwner,
+                            locationId: transportLogObj.locationId,
                             status: transportLogObj.status,
                             processTimeStamp: transportLogObj.processTimeStamp,
                             remarks: transportLogObj.remarks
 
-                        });                       
+                        });
                         if (result.dataValues.transportlogId > 0) {
-                            console.log("save transportLog with id",result.dataValues.transportlogId);
+                            console.log("save transportLog with id", result.dataValues.transportlogId);
                             ch.ack(msg);
                         } else {
                             ch.ack(msg);
@@ -163,11 +163,11 @@ var boomiLogConsumer = () => {
             var queue = process.env.BOOMI_LOG_RABBIT_QUEUE;
             ch.assertQueue(queue, { durable: false });
             ch.consume(queue, async function (msg) {
-                if (msg != null) {                
-                    var boomiLogObj = JSON.parse(msg.content.toString());                            
+                if (msg != null) {
+                    var boomiLogObj = JSON.parse(msg.content.toString());
                     try {
                         var result = await model.tbl_boomiLog.create({
-                            transportId :boomiLogObj.transportId,
+                            transportId: boomiLogObj.transportId,
                             processId: boomiLogObj.processId,
                             processName: boomiLogObj.processName,
                             applicationName: boomiLogObj.applicationName,
@@ -186,22 +186,59 @@ var boomiLogConsumer = () => {
                             outputDataEncyptionPublicKeyFileName: boomiLogObj.outputDataEncyptionPublicKeyFileName,
                             outputDataHashProgram: boomiLogObj.outputDataHashProgram,
                             transformOutData: boomiLogObj.transformOutData,
-                            processOwner: boomiLogObj.processOwner, 
-                            locationId:boomiLogObj.locationId,                           
+                            processOwner: boomiLogObj.processOwner,
+                            locationId: boomiLogObj.locationId,
                             status: boomiLogObj.status,
                             processTimeStamp: boomiLogObj.processTimeStamp,
                             remarks: boomiLogObj.remarks
 
-                        });                       
+                        });
                         if (result.dataValues.boomiLogId > 0) {
-                            console.log("save boomiLog with id",result.dataValues.boomiLogId);
+                            console.log("save boomiLog with id", result.dataValues.boomiLogId);
                             ch.ack(msg);
                         } else {
                             ch.ack(msg);
                             console.log("Unable to save the data on boomiLog");
                         }
                     } catch (err) {
-                        console.log("error while adding the boomiLog",err);
+                        console.log("error while adding the boomiLog", err);
+                    }
+                }
+            })
+        });
+    });
+}
+
+//transportLog Consumer for the transport  object
+var transport_LogConsumer = () => {
+    amqp.connect(process.env.RABBIT_URL, (err, conn) => {
+        console.log("======Rabbit mq  transportLog consumer connected successfully===");
+        conn.createChannel((err, ch) => {
+            var queue = process.env.BOOMI_LOG_RABBIT_QUEUE;
+            ch.assertQueue(queue, { durable: false });
+            ch.consume(queue, async function (msg) {
+                if (msg != null) {
+                    var tranportLog = JSON.parse(msg.content.toString());
+                    try {
+                        var result = await model.tbl_transport_log.create({
+                            transport_id: tranportLog.transportId,
+                            timestamp: tranportLog.timestamp,
+                            file_name: tranportLog.fileName,
+                            hash_value: tranportLog.hashValue,
+                            status: tranportLog.status,
+                            remarks: tranportLog.remarks
+                        });
+                        if (result.dataValues.transport_log_id > 0) {
+                            console.log("save transportIdMapping with id", result.dataValues.transport_log_id);
+                            ch.ack(msg);
+                        } else {
+                            ch.ack(msg);
+                            console.log("Unable to save the data on tbl_file_registry");
+                        }
+
+
+                    } catch (err) {
+                        console.log("error while adding the boomiLog", err);
                     }
                 }
             })
@@ -214,5 +251,6 @@ module.exports = {
     consumer,
     fileRepositoryConsumer,
     transportLogConsumer,
-    boomiLogConsumer
+    boomiLogConsumer,
+    transport_LogConsumer
 }

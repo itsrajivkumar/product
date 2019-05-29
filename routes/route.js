@@ -25,8 +25,8 @@ appRouter.use("/locations", locationRouter);
 appRouter.use("/routerlocationMapping", routerlocationmappingRouter);
 appRouter.use("/transportId", transportIdRouter);
 appRouter.use("/dashboard", dashboardRouter);
-appRouter.use("/file-registry", file_registry);
-appRouter.use("/transport-id-mapping", transportIdMapping);
-appRouter.use("/transport-log", transport_log);
+appRouter.use("/fileregistries", file_registry);
+appRouter.use("/transportidmappings", transportIdMapping);
+appRouter.use("/transportlogs", transport_log);
 
 module.exports = appRouter;

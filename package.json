@@ -40,7 +40,7 @@
     "random-token": "0.0.8",
     "request": "^2.88.0",
     "rootpath": "^0.1.2",
-    "sequelize": "^4.44.0",
+    "sequelize": "^5.15.1",
     "socket.io": "^2.1.1",
     "socket.io-sequelize": "^1.0.1",
     "zero-fill": "^2.2.3"
